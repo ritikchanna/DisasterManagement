@@ -26,6 +26,7 @@ public class VicActivity extends Activity implements Listener {
     private RealtimeDBHelper realtimeDBHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //todo check request status
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vic);
         et_message= findViewById(R.id.et_message);
