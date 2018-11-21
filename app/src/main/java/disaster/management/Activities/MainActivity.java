@@ -87,13 +87,15 @@ public class MainActivity extends Activity {
             public void run(){
                 final JSONObject json = RemoteFetch.getJSON(MainActivity.this, lat,lon);
                 if(json == null){
-                    new Runnable(){
-                        public void run(){
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
                             Toast.makeText(MainActivity.this,
-                                   getString(R.string.place_not_found),
+                                    "Can't connect to Internet",
                                     Toast.LENGTH_LONG).show();
                         }
-                    }.run();
+                    });
+
                 } else {
                     runOnUiThread(new Runnable(){
                         public void run(){
@@ -111,7 +113,10 @@ public class MainActivity extends Activity {
     private void renderWeather(JSONObject json){
         try {
             Log.d("Ritik", "renderWeather: "+json.toString());
-            cityField.setText(json.getString("name").toUpperCase(Locale.US) +
+           // cityField.setText(json.getString("name").toUpperCase(Locale.US) +
+                  //  ", " +
+                   // json.getJSONObject("sys").getString("country"));
+            cityField.setText("Gautam Buddh Nagar" +
                     ", " +
                     json.getJSONObject("sys").getString("country"));
 

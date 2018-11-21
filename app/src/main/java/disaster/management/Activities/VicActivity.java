@@ -75,8 +75,7 @@ public class VicActivity extends Activity implements Listener {
         });
         tv_status = findViewById(R.id.tv_status);
         firebaseAuth = FirebaseAuth.getInstance();
-        if(firebaseAuth.getCurrentUser().getDisplayName()==null)
-            et_name.setVisibility(View.VISIBLE);
+        et_name.setText(firebaseAuth.getCurrentUser().getDisplayName()+"");
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         realtimeDBHelper = new RealtimeDBHelper(VicActivity.this);
         realtimeDBHelper.readRequest(this,Constants.REQUEST_READ,firebaseAuth.getCurrentUser().getEmail().replace('.', '&') + firebaseAuth.getCurrentUser().getPhoneNumber());
@@ -109,9 +108,10 @@ public class VicActivity extends Activity implements Listener {
                     e.printStackTrace();
                 }
                if(firebaseAuth.getCurrentUser().getDisplayName()!=null||et_name.getText().toString().length()>2) {
-                   realtimeDBHelper.writeRequest(VicActivity.this, Constants.REQUEST_SUBMIT, firebaseAuth.getCurrentUser().getEmail().replace('.', '&') + firebaseAuth.getCurrentUser().getPhoneNumber(), firebaseAuth.getCurrentUser().getDisplayName() + et_name.getText().toString(), String.valueOf(latitude) + "," + String.valueOf(longitude), et_message.getText().toString(), et_phone.getText().toString(), category, null, null);
+                   realtimeDBHelper.writeRequest(VicActivity.this, Constants.REQUEST_SUBMIT, firebaseAuth.getCurrentUser().getEmail().replace('.', '&') + firebaseAuth.getCurrentUser().getPhoneNumber(), et_name.getText().toString(), String.valueOf(latitude) + "," + String.valueOf(longitude), et_message.getText().toString(), et_phone.getText().toString(), category, null, null);
                     progressBar.setVisibility(View.VISIBLE);
-                    btn_submit.setEnabled(false);
+                    btn_submit.setEnabled(false);if(firebaseAuth.getCurrentUser().getDisplayName()==null)
+            et_name.setVisibility(View.VISIBLE);
                } else
                     et_name.setError("Please input your name");
             }

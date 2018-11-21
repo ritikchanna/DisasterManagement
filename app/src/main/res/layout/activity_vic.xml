@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/et_name"
         android:hint="Name"
-        android:visibility="invisible"
+
         />
     <EditText
         android:layout_margin="10dp"

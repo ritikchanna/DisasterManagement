@@ -47,7 +47,7 @@ public class SplashScreen extends Activity {
                         .createSignInIntentBuilder()
                         .setAvailableProviders(providers)
                         .setTheme(R.style.AppThemeFirebaseAuth)
-                        .setLogo(R.drawable.ic_launcher_foreground)
+                       // .setLogo(R.drawable.ic_launcher_foreground)
                         .build(),
                 98);
     }
