@@ -58,7 +58,7 @@
             android:textSize="18sp"
             android:textColor="#fff"
             android:layout_margin="8dp"
-            android:layout_below="@id/time_tv"/>
+            android:layout_below="@id/status_tv"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
