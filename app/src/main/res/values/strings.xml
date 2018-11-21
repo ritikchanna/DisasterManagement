@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Disaster Management</string>
     <string name="open_weather_maps_app_id">4d17b5dd1ac9da32b304b4594768c50a</string>
+    <string name="facebook_application_id">1140822109426404</string>
+    <string name="fb_login_protocol_scheme">fb1140822109426404</string>
 
     <string name="weather_sunny">&#xf00d;</string>
     <string name="weather_clear_night">&#xf02e;</string>

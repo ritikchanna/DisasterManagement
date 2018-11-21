@@ -14,12 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCI4JSn88ytdF_gbdcbjaZb3FMbP99SFSU"/>
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCI4JSn88ytdF_gbdcbjaZb3FMbP99SFSU"/>
+
 
         <activity android:name=".Activities.MainActivity" />
         <activity android:name=".Activities.VicActivity" />
         <activity android:name=".Activities.VolActivity" />
-        <activity android:name=".Activities.SplashScreen">
+        <activity android:name=".Activities.SplashScreen"
+            android:theme="@style/AppThemeFirebaseAuth">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -27,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activities.RequestActivity"
-            android:theme="@style/Base.Theme.AppCompat">
+            android:theme="@style/AppTheme2">
 
         </activity>
     </application>

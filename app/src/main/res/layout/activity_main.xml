@@ -10,7 +10,8 @@
     <RelativeLayout
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
         <TextView
             android:id="@+id/city_field"
             android:layout_width="wrap_content"
@@ -69,7 +70,9 @@
         android:text="Victim"
         android:id="@+id/btn_vic"
         android:layout_margin="50dp"
-        android:layout_centerInParent="true"/>
+        android:textColor="#FFF"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_above="@id/btn_vol"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,6 +80,8 @@
         android:text="Volunteer"
         android:id="@+id/btn_vol"
         android:layout_margin="50dp"
+        android:textColor="#FFF"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>

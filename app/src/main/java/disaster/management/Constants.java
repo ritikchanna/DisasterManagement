@@ -12,11 +12,8 @@ public class Constants {
 
 
 
-    //todo change wallpapers
-    //todo add weather widget
-
 
     //todo fetch request status in victim
     //todo coordinates picker victim
-    //todo facebook login,remove others
+
 }

@@ -16,15 +16,26 @@
         android:textColor="#f5f5"
         android:textStyle="bold"
         android:visibility="invisible"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_below="@id/tv_status"
+        android:id="@+id/tv_titt"
+        android:text="Generate Help Request"
+        />
     <EditText
         android:layout_margin="25dp"
-        android:layout_below="@id/tv_status"
+        android:layout_below="@id/tv_titt"
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:id="@+id/et_phone"
         android:hint="Phone"
         android:inputType="phone"
         android:digits="0123456789+"
+
         />
     <EditText
         android:layout_margin="25dp"
@@ -32,7 +43,7 @@
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:id="@+id/et_message"
-        android:hint="Phone"
+        android:hint="Type Message here, include your requirements and assistance required"
         android:lines="8"
         android:scrollbars="vertical"
         />
@@ -47,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_disclaimer"
         android:text="Send"
+        android:textColor="#fff"
         android:layout_margin="20dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/btn_send"
