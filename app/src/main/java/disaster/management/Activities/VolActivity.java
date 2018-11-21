@@ -1,4 +1,4 @@
-package disaster.management;
+package disaster.management.Activities;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -7,6 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import disaster.management.Constants;
+import disaster.management.Listener;
+import disaster.management.Myadapter;
+import disaster.management.R;
+import disaster.management.RealtimeDBHelper;
+import disaster.management.Request;
 
 public class VolActivity extends Activity implements Listener {
     private RealtimeDBHelper realtimeDBHelper;
@@ -27,8 +34,9 @@ public class VolActivity extends Activity implements Listener {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         requests=new ArrayList<>();
-        mAdapter = new Myadapter(requests);
+        mAdapter = new Myadapter(requests,this);
         mRecyclerView.setAdapter(mAdapter);
+
     }
 
 

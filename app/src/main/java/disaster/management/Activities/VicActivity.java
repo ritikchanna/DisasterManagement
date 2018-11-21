@@ -1,10 +1,9 @@
-package disaster.management;
+package disaster.management.Activities;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -17,6 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import disaster.management.Constants;
+import disaster.management.Listener;
+import disaster.management.R;
+import disaster.management.RealtimeDBHelper;
 
 public class VicActivity extends Activity implements Listener {
     EditText et_message,et_phone;

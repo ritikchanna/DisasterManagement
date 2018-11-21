@@ -1,10 +1,12 @@
-package disaster.management;
+package disaster.management.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import disaster.management.R;
 
 
 public class MainActivity extends Activity {

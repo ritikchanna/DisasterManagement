@@ -6,5 +6,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:id="@+id/rv_tv"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    android:layout_margin="5dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginLeft="10dp"
     />
 </RelativeLayout>

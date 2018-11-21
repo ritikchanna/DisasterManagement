@@ -4,23 +4,31 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
+
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".VicActivity" />
-        <activity android:name=".VolActivity" />
-        <activity android:name=".SplashScreen">
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyCI4JSn88ytdF_gbdcbjaZb3FMbP99SFSU"/>
+
+        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".Activities.VicActivity" />
+        <activity android:name=".Activities.VolActivity" />
+        <activity android:name=".Activities.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Activities.RequestActivity"
+            android:theme="@style/Base.Theme.AppCompat">
+
         </activity>
     </application>
 
