@@ -66,6 +66,7 @@ public class Myadapter extends RecyclerView.Adapter<Myadapter.MyViewHolder> {
                 i.putExtra("name",request.getName());
                 i.putExtra("time",request.getTime());
                 i.putExtra("uid",request.getUID());
+                i.putExtra("category",request.getCategory());
                 mContext.startActivity(i);
             }
         });

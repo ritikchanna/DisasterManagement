@@ -12,8 +12,8 @@ public class Constants {
 
 
 
-
+//loading show   wheather requestsend requestlistfetch requestlistmodify
     //todo fetch request status in victim
-    //todo coordinates picker victim
+
 
 }

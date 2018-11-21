@@ -28,13 +28,14 @@ public class SplashScreen extends Activity {
 
     public void launchMain(){
         startActivity(new Intent(SplashScreen.this,MainActivity.class));
+        finish();
     }
 
     public void launchAuthUI(){
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-            //    new AuthUI.IdpConfig.EmailBuilder().build(),
-          //      new AuthUI.IdpConfig.PhoneBuilder().build(),
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.PhoneBuilder().build(),
                 new AuthUI.IdpConfig.FacebookBuilder().build(),
         //        new AuthUI.IdpConfig.TwitterBuilder().build()
                 new AuthUI.IdpConfig.GoogleBuilder().build()

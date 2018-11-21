@@ -17,6 +17,14 @@
             android:id="@+id/dummy"
             android:layout_alignParentTop="true"
             />
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="invisible"
+            android:id="@+id/progressbar_request"
+            android:layout_alignTop="@id/dummy"
+            android:layout_alignParentEnd="true"
+            />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,6 +51,14 @@
         android:textColor="#fff"
         android:layout_margin="8dp"
         android:layout_below="@id/time_tv"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/category_tv"
+            android:textSize="18sp"
+            android:textColor="#fff"
+            android:layout_margin="8dp"
+            android:layout_below="@id/time_tv"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,7 +66,7 @@
         android:layout_margin="8dp"
         android:textColor="#fff"
         android:textSize="18sp"
-        android:layout_below="@id/status_tv"/>
+        android:layout_below="@id/category_tv"/>
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

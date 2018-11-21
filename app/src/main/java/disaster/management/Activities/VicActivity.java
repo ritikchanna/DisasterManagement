@@ -2,16 +2,21 @@ package disaster.management.Activities;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,22 +28,58 @@ import disaster.management.R;
 import disaster.management.RealtimeDBHelper;
 
 public class VicActivity extends Activity implements Listener {
-    EditText et_message,et_phone;
-    Button btn_submit;
+    EditText et_message,et_phone,et_name;
+    Button btn_submit,btn_call;
     TextView tv_status;
     LocationManager locationManager;
     private RealtimeDBHelper realtimeDBHelper;
+    FirebaseAuth firebaseAuth;
+    Spinner category_spinner;
+    String category = "Uncategorized";
+    ProgressBar progressBar;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //todo check request status
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vic);
+
         et_message= findViewById(R.id.et_message);
         et_phone = findViewById(R.id.et_phone);
+        et_name=findViewById(R.id.et_name);
         btn_submit = findViewById(R.id.btn_send);
+        btn_call = findViewById(R.id.btn_call);
+        category_spinner=findViewById(R.id.spinner_category);
+        progressBar=findViewById(R.id.progressBar_vic);
+
+        category_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                category=parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                category="Uncategorized";
+            }
+        });
+        btn_call.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+
+                intent.setData(Uri.parse("tel:" + "+919582286528"));
+               startActivity(intent);
+            }
+        });
         tv_status = findViewById(R.id.tv_status);
+        firebaseAuth = FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser().getDisplayName()==null)
+            et_name.setVisibility(View.VISIBLE);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         realtimeDBHelper = new RealtimeDBHelper(VicActivity.this);
+        realtimeDBHelper.readRequest(this,Constants.REQUEST_READ,firebaseAuth.getCurrentUser().getEmail().replace('.', '&') + firebaseAuth.getCurrentUser().getPhoneNumber());
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +108,12 @@ public class VicActivity extends Activity implements Listener {
 
                     e.printStackTrace();
                 }
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                realtimeDBHelper.writeRequest(VicActivity.this,Constants.REQUEST_SUBMIT,firebaseAuth.getCurrentUser().getEmail().replace('.','&')+firebaseAuth.getCurrentUser().getPhoneNumber(),firebaseAuth.getCurrentUser().getDisplayName(),String.valueOf(latitude)+","+String.valueOf(longitude),et_message.getText().toString(),et_phone.getText().toString(),null,null);
+               if(firebaseAuth.getCurrentUser().getDisplayName()!=null||et_name.getText().toString().length()>2) {
+                   realtimeDBHelper.writeRequest(VicActivity.this, Constants.REQUEST_SUBMIT, firebaseAuth.getCurrentUser().getEmail().replace('.', '&') + firebaseAuth.getCurrentUser().getPhoneNumber(), firebaseAuth.getCurrentUser().getDisplayName() + et_name.getText().toString(), String.valueOf(latitude) + "," + String.valueOf(longitude), et_message.getText().toString(), et_phone.getText().toString(), category, null, null);
+                    progressBar.setVisibility(View.VISIBLE);
+                    btn_submit.setEnabled(false);
+               } else
+                    et_name.setError("Please input your name");
             }
         });
 
@@ -77,13 +122,36 @@ public class VicActivity extends Activity implements Listener {
 
     @Override
     public void OnDownloadResult(int ResponseCode, Object Response) {
-    tv_status.setText("Request submitted successfully");
-    tv_status.setVisibility(View.VISIBLE);
+        if(ResponseCode==Constants.REQUEST_READ)
+        {
+            Log.d("Ritik", "OnDownloadResult: readout"+Response);
+            progressBar.setVisibility(View.INVISIBLE);
+            btn_submit.setEnabled(true);
+            int status=(int)Response;
+            if(status==0)
+            tv_status.setText("Request submitted successfully");
+            else if(status==1)
+                tv_status.setText("Request Accepted");
+            else if(status==2)
+                tv_status.setText("Request Denied");
+            tv_status.setVisibility(View.VISIBLE);
+        }
+        else {
+            progressBar.setVisibility(View.INVISIBLE);
+            btn_submit.setEnabled(true);
+            tv_status.setText("Request submitted successfully");
+            tv_status.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
     public void OnErrorDownloadResult(int ResponseCode) {
-        Toast.makeText(VicActivity.this,"Something Went Wrong, PLease try again",Toast.LENGTH_SHORT).show();
+        if(ResponseCode==Constants.REQUEST_SUBMIT) {
+            Toast.makeText(VicActivity.this, "Something Went Wrong, PLease try again", Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.INVISIBLE);
+            btn_submit.setEnabled(true);
+        }
 
     }
 }

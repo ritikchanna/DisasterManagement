@@ -4,9 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import disaster.management.Constants;
 import disaster.management.Listener;
@@ -21,7 +26,7 @@ public class VolActivity extends Activity implements Listener {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Request> requests;
-
+    private ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +37,7 @@ public class VolActivity extends Activity implements Listener {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-
+        progressBar=findViewById(R.id.progress_request_list);
         requests=new ArrayList<>();
         mAdapter = new Myadapter(requests,this);
         mRecyclerView.setAdapter(mAdapter);
@@ -45,11 +50,16 @@ public class VolActivity extends Activity implements Listener {
         requests.clear();
         requests.addAll((ArrayList<Request>)Response);
         mAdapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void OnErrorDownloadResult(int ResponseCode) {
         Toast.makeText(VolActivity.this,"Something went again,Retrying",Toast.LENGTH_SHORT).show();
         realtimeDBHelper.readRequest(VolActivity.this,Constants.REQUEST_READ);
+        progressBar.setVisibility(View.INVISIBLE);
     }
+
+
+
 }

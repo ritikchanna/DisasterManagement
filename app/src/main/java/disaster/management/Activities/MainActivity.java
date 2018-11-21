@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONObject;
 
@@ -21,10 +24,10 @@ import disaster.management.RemoteFetch;
 
 
 public class MainActivity extends Activity {
-    Button vic,vol;
+    Button vic,vol,logout;
 
 
-
+    ProgressBar progressBar;
     Typeface weatherFont;
 
     TextView cityField;
@@ -44,10 +47,11 @@ public class MainActivity extends Activity {
         currentTemperatureField = findViewById(R.id.current_temperature_field);
         weatherIcon = findViewById(R.id.weather_icon);
         weatherIcon.setTypeface(weatherFont);
-
+        progressBar=findViewById(R.id.progressbar_weather);
         
         vic=findViewById(R.id.btn_vic);
         vol=findViewById(R.id.btn_vol);
+        logout=findViewById(R.id.btn_logout);
         vic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,13 +64,21 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this,VolActivity.class));
             }
         });
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this,SplashScreen.class));
+                finish();
+            }
+        });
         updateWeatherData("28.42368","77.52136");
     }
 
 
     private void updateWeatherData(String lat,String lon){
 
-
+        progressBar.setVisibility(View.VISIBLE);
 
 
 
@@ -120,6 +132,7 @@ public class MainActivity extends Activity {
             setWeatherIcon(details.getInt("id"),
                     json.getJSONObject("sys").getLong("sunrise") * 1000,
                     json.getJSONObject("sys").getLong("sunset") * 1000);
+            progressBar.setVisibility(View.INVISIBLE);
 
         }catch(Exception e){
             Log.e("Ritik", "One or more fields not found in the JSON data"+e.getMessage());

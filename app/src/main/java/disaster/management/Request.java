@@ -1,7 +1,7 @@
 package disaster.management;
 
 public class Request {
-    private String Name,Contact,Location,Message,Status,Time,UID;
+    private String Name,Contact,Location,Message,Status,Time,UID,category;
 
     public String getName() {
         return Name;
@@ -57,5 +57,13 @@ public class Request {
 
     public void setUID(String UID) {
         this.UID = UID;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
