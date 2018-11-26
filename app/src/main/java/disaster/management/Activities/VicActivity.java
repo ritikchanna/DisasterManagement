@@ -29,7 +29,7 @@ import disaster.management.RealtimeDBHelper;
 
 public class VicActivity extends Activity implements Listener {
     EditText et_message,et_phone,et_name;
-    Button btn_submit,btn_call;
+    Button btn_submit,btn_call,btn_sms;
     TextView tv_status;
     LocationManager locationManager;
     private RealtimeDBHelper realtimeDBHelper;
@@ -50,6 +50,7 @@ public class VicActivity extends Activity implements Listener {
         et_name=findViewById(R.id.et_name);
         btn_submit = findViewById(R.id.btn_send);
         btn_call = findViewById(R.id.btn_call);
+        btn_sms= findViewById(R.id.btn_sms);
         category_spinner=findViewById(R.id.spinner_category);
         progressBar=findViewById(R.id.progressBar_vic);
 
@@ -73,6 +74,14 @@ public class VicActivity extends Activity implements Listener {
                startActivity(intent);
             }
         });
+        btn_sms.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_VIEW,Uri.parse("sms:"+"+919582286528"));
+                intent.putExtra("sms_body","Name: "+et_name.getText().toString()+"\nPosition: "+getLatLon()+"\nMessage: "+et_message.getText().toString());
+                startActivity(intent);
+            }
+        });
         tv_status = findViewById(R.id.tv_status);
         firebaseAuth = FirebaseAuth.getInstance();
         et_name.setText(firebaseAuth.getCurrentUser().getDisplayName()+"");
@@ -82,33 +91,9 @@ public class VicActivity extends Activity implements Listener {
         btn_submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocationManager lm = (LocationManager)getSystemService(LOCATION_SERVICE);
-                double longitude=77.52136;
-                double latitude=28.42368;
-                try {
-                    Log.d("Ritik", "fetching location ");
-                    Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                    if(location!=null) {
-                        longitude = location.getLongitude();
-                        latitude = location.getLatitude();
-                    }
-                    Log.d("Ritik", "onClick: "+latitude+"   "+longitude);
-                }catch (SecurityException e){
-                    if (ContextCompat.checkSelfPermission(VicActivity.this,
-                            Manifest.permission.ACCESS_FINE_LOCATION)
-                            != PackageManager.PERMISSION_GRANTED) {
 
-
-
-                            ActivityCompat.requestPermissions(VicActivity.this,
-                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                                    99);
-                        }
-
-                    e.printStackTrace();
-                }
                if(firebaseAuth.getCurrentUser().getDisplayName()!=null||et_name.getText().toString().length()>2) {
-                   realtimeDBHelper.writeRequest(VicActivity.this, Constants.REQUEST_SUBMIT, firebaseAuth.getCurrentUser().getEmail().replace('.', '&') + firebaseAuth.getCurrentUser().getPhoneNumber(), et_name.getText().toString(), String.valueOf(latitude) + "," + String.valueOf(longitude), et_message.getText().toString(), et_phone.getText().toString(), category, null, null);
+                   realtimeDBHelper.writeRequest(VicActivity.this, Constants.REQUEST_SUBMIT, firebaseAuth.getCurrentUser().getEmail().replace('.', '&') + firebaseAuth.getCurrentUser().getPhoneNumber(), et_name.getText().toString(), getLatLon(), et_message.getText().toString(), et_phone.getText().toString(), category, null, null);
                     progressBar.setVisibility(View.VISIBLE);
                     btn_submit.setEnabled(false);if(firebaseAuth.getCurrentUser().getDisplayName()==null)
             et_name.setVisibility(View.VISIBLE);
@@ -153,5 +138,44 @@ public class VicActivity extends Activity implements Listener {
             btn_submit.setEnabled(true);
         }
 
+    }
+
+    public String getLatLon(){
+        LocationManager lm = (LocationManager)getSystemService(LOCATION_SERVICE);
+        double longitude=77.523653;
+        double latitude=28.417412;
+        if (ContextCompat.checkSelfPermission(VicActivity.this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+
+
+            ActivityCompat.requestPermissions(VicActivity.this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    99);
+        }
+        try {
+            Log.d("Ritik", "fetching location ");
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(location!=null) {
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+            }
+            Log.d("Ritik", "onClick: "+latitude+"   "+longitude);
+        }catch (SecurityException e){
+            if (ContextCompat.checkSelfPermission(VicActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+
+
+                ActivityCompat.requestPermissions(VicActivity.this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        99);
+            }
+
+            e.printStackTrace();
+        }
+        return String.valueOf(latitude)+","+String.valueOf(longitude);
     }
 }

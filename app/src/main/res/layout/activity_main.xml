@@ -84,7 +84,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#0000"
-        android:text="Rescuer"
+        android:text="Rescue Team"
         android:id="@+id/btn_vol"
         android:layout_margin="25dp"
         android:textColor="#FFF"
